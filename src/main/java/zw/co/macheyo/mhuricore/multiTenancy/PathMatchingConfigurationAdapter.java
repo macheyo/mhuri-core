@@ -1,4 +1,4 @@
-package zw.co.macheyo.mhuricore.config.multiTenancy;
+package zw.co.macheyo.mhuricore.multiTenancy;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;

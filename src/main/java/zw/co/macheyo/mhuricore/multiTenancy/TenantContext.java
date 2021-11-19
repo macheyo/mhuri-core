@@ -1,4 +1,4 @@
-package zw.co.macheyo.mhuricore.config.multiTenancy;
+package zw.co.macheyo.mhuricore.multiTenancy;
 
 public class TenantContext {
     private static ThreadLocal<String> currentTenant = new InheritableThreadLocal<>();
