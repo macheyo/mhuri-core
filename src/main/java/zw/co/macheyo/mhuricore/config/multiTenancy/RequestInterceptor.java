@@ -1,4 +1,4 @@
-package zw.co.macheyo.mhuricore.config;
+package zw.co.macheyo.mhuricore.config.multiTenancy;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
