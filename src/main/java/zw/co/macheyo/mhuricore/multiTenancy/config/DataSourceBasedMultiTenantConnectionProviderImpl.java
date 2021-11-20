@@ -20,7 +20,7 @@ public class DataSourceBasedMultiTenantConnectionProviderImpl extends AbstractDa
     @Autowired
     private ApplicationContext context;
 
-    private Map<String, DataSource> map = new HashMap<>();
+    private final Map<String, DataSource> map = new HashMap<>();
 
     boolean init = false;
 

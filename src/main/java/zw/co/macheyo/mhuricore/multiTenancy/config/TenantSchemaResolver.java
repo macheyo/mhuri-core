@@ -7,15 +7,13 @@ import zw.co.macheyo.mhuricore.multiTenancy.TenantContext;
 @Component
 public class TenantSchemaResolver implements CurrentTenantIdentifierResolver {
 
-    private String defaultTenant ="public";
-
     @Override
     public String resolveCurrentTenantIdentifier() {
         String t =  TenantContext.getCurrentTenant();
         if(t!=null){
             return t;
         } else {
-            return defaultTenant;
+            return "public";
         }
     }
 

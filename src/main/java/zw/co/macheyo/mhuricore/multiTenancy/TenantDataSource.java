@@ -16,7 +16,7 @@ import java.util.Map;
 @Component
 public class TenantDataSource implements Serializable {
 
-    private HashMap<String, DataSource> dataSources = new HashMap<>();
+    private final HashMap<String, DataSource> dataSources = new HashMap<>();
 
     @Autowired
     private DataSourceConfigRepository configRepo;
@@ -46,13 +46,12 @@ public class TenantDataSource implements Serializable {
     private DataSource createDataSource(String name) {
         DataSourceConfig config = configRepo.findByName(name);
         if (config != null) {
-            DataSourceBuilder factory = DataSourceBuilder
+            DataSourceBuilder<?> factory = DataSourceBuilder
                     .create().driverClassName(config.getDriverClassName())
                     .username(config.getUsername())
                     .password(config.getPassword())
                     .url(config.getUrl());
-            DataSource ds = factory.build();
-            return ds;
+            return factory.build();
         }
         return null;
     }
