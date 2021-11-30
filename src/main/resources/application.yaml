@@ -1,7 +1,7 @@
 server:
   servlet:
     context-path: /mhuri
-  port: 1994
+  port: 8080
 spring:
   application:
     name: Mhuri
@@ -24,8 +24,8 @@ spring:
       client:
         registration:
           google:
-            clientId: 5014057553-8gm9um6vnli3cle5rgigcdjpdrid14m9.apps.googleusercontent.com
-            clientSecret: tWZKVLxaD_ARWsriiiUFYoIk
+            clientId: 274865196799-sd5uumd38uaa0dnsk5rqrtdlac6kb077.apps.googleusercontent.com
+            clientSecret: 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
             redirectUri: "{baseUrl}/oauth2/callback/{registrationId}"
             scope:
               - email
