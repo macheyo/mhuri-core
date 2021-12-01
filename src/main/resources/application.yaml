@@ -3,22 +3,22 @@ server:
     context-path: /mhuri
   port: 8080
 spring:
-  application:
-    name: Mhuri
-  datasource:
-    url: jdbc:postgresql://localhost:5432/mhuri_core?autoReconnect=true&createDatabaseIfNotExist=true&useSSL=false&serverTimezone=UTC&jdbcCompliantTruncation=false
-    username: postgres
-    password: password
-    driver-class-name: org.postgresql.Driver
-  jpa:
-    show-sql: true
-    hibernate:
-      ddl-auto: update
-      naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
-    properties:
-      hibernate:
-        hbm2ddl:
-          auto: none
+#  application:
+#    name: Mhuri
+#  datasource:
+#    url: jdbc:postgresql://localhost:5432/mhuri_core?autoReconnect=true&createDatabaseIfNotExist=true&useSSL=false&serverTimezone=UTC&jdbcCompliantTruncation=false
+#    username: postgres
+#    password: password
+#    driver-class-name: org.postgresql.Driver
+#  jpa:
+#    show-sql: true
+#    hibernate:
+#      ddl-auto: update
+#      naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
+#    properties:
+#      hibernate:
+#        hbm2ddl:
+#          auto: none
   security:
     oauth2:
       client:
