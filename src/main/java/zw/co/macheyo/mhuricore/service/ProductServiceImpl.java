@@ -29,7 +29,7 @@ public class ProductServiceImpl implements ProductService{
     @Override
     public Product update(Long id, Product product) {
         return productRepository.findById(id).map(p->{
-            modelMapper.map(product, Product.class);
+            p.setName(product.getName());
             return productRepository.save(p);})
                 .orElseThrow(()->new ResourceNotFoundException("product","id",id));
     }
