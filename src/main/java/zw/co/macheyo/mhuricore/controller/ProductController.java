@@ -1,14 +1,21 @@
 package zw.co.macheyo.mhuricore.controller;
 
+import com.nimbusds.openid.connect.sdk.Prompt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import zw.co.macheyo.mhuricore.exception.ResourceNotFoundException;
 import zw.co.macheyo.mhuricore.model.Product;
 import zw.co.macheyo.mhuricore.modelAssembler.ProductModelAssembler;
 import zw.co.macheyo.mhuricore.service.ProductService;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+
+import java.security.Principal;
+import java.time.LocalDateTime;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -30,5 +37,17 @@ public class ProductController {
     @GetMapping("/list")
     public CollectionModel<EntityModel<Product>> list() {
         return CollectionModel.of(productService.findAll(), linkTo(methodOn(ProductController.class).list()).withSelfRel());
+    }
+
+    @GetMapping("/{id}")
+    public EntityModel<Product> getById(@PathVariable Long id) {
+        Product product = productService.findById(id);
+        return assembler.toModel(product);
+    }
+
+    @PutMapping("/update/{id}")
+    public EntityModel<Product> update(@PathVariable Long id, @Valid @RequestBody Product product){
+        Product updatedProduct = productService.update(id, product);
+        return assembler.toModel(updatedProduct);
     }
 }

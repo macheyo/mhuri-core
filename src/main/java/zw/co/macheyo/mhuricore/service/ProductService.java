@@ -8,5 +8,11 @@ import java.util.List;
 public interface ProductService {
     Product save(Product product);
 
+    Product update(Long id, Product product);
+
     List<EntityModel<Product>> findAll();
+
+    Product findById(Long id);
+
+
 }
