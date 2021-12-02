@@ -1,21 +1,14 @@
 package zw.co.macheyo.mhuricore.controller;
 
-import com.nimbusds.openid.connect.sdk.Prompt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import zw.co.macheyo.mhuricore.exception.ResourceNotFoundException;
 import zw.co.macheyo.mhuricore.model.Product;
 import zw.co.macheyo.mhuricore.modelAssembler.ProductModelAssembler;
 import zw.co.macheyo.mhuricore.service.ProductService;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-
-import java.security.Principal;
-import java.time.LocalDateTime;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
