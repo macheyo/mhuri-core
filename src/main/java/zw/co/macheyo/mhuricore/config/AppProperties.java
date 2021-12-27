@@ -1,5 +1,7 @@
 package zw.co.macheyo.mhuricore.config;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
@@ -10,26 +12,13 @@ import java.util.List;
 public class AppProperties {
     private final Auth auth = new Auth();
     private final OAuth2 oauth2 = new OAuth2();
-
+    @Getter
+    @Setter
     public static class Auth {
         private String tokenSecret;
-        private long tokenExpirationMsec;
 
-        public String getTokenSecret() {
-            return tokenSecret;
-        }
+        private long tokenExpirationMicroSec;
 
-        public void setTokenSecret(String tokenSecret) {
-            this.tokenSecret = tokenSecret;
-        }
-
-        public long getTokenExpirationMsec() {
-            return tokenExpirationMsec;
-        }
-
-        public void setTokenExpirationMsec(long tokenExpirationMsec) {
-            this.tokenExpirationMsec = tokenExpirationMsec;
-        }
     }
 
     public static final class OAuth2 {
