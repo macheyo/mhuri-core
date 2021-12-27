@@ -2,18 +2,20 @@ package zw.co.macheyo.mhuricore.model;
 
 import lombok.*;
 import org.hibernate.Hibernate;
+import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.util.Objects;
 
+@Audited
 @Entity
 @Getter
 @Setter
 @ToString
 @RequiredArgsConstructor
 @Table(name = "products")
-public class Product {
+public class Product extends BaseEntity{
     @Id
     @GeneratedValue
     private Long id;
