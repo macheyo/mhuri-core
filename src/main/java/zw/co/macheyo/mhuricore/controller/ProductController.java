@@ -8,6 +8,7 @@ import zw.co.macheyo.mhuricore.model.Product;
 import zw.co.macheyo.mhuricore.modelAssembler.ProductModelAssembler;
 import zw.co.macheyo.mhuricore.service.ProductService;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
@@ -23,8 +24,8 @@ public class ProductController {
     ProductModelAssembler assembler;
 
     @PostMapping(consumes = APPLICATION_JSON_VALUE)
-    public EntityModel<Product> create(@Valid @RequestBody Product product) {
-        return assembler.toModel(productService.save(product));
+    public EntityModel<Product> create(@Valid @RequestBody Product product, HttpServletRequest httpServletRequest) {
+        return assembler.toModel(productService.save(product, httpServletRequest));
     }
 
     @GetMapping("/list")
@@ -39,8 +40,8 @@ public class ProductController {
     }
 
     @PutMapping("/update/{id}")
-    public EntityModel<Product> update(@PathVariable Long id, @Valid @RequestBody Product product){
-        Product updatedProduct = productService.update(id, product);
+    public EntityModel<Product> update(@PathVariable Long id, @Valid @RequestBody Product product, HttpServletRequest httpServletRequest){
+        Product updatedProduct = productService.update(id, product, httpServletRequest);
         return assembler.toModel(updatedProduct);
     }
 }

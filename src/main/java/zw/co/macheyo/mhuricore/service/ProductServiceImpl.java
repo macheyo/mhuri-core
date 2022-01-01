@@ -9,6 +9,8 @@ import zw.co.macheyo.mhuricore.model.Product;
 import zw.co.macheyo.mhuricore.modelAssembler.ProductModelAssembler;
 import zw.co.macheyo.mhuricore.repository.ProductRepository;
 
+import javax.servlet.http.HttpServletRequest;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,14 +24,18 @@ public class ProductServiceImpl implements ProductService{
     ModelMapper modelMapper;
 
     @Override
-    public Product save(Product product) {
+    public Product save(Product product, HttpServletRequest httpServletRequest) {
+        product.setCreatedBy(httpServletRequest.getUserPrincipal().getName());
+        product.setLastModifiedBy(httpServletRequest.getUserPrincipal().getName());
         return productRepository.save(modelMapper.map(product, Product.class));
     }
 
     @Override
-    public Product update(Long id, Product product) {
+    public Product update(Long id, Product product, HttpServletRequest httpServletRequest) {
         return productRepository.findById(id).map(p->{
             p.setName(product.getName());
+            p.setLastModifiedBy(httpServletRequest.getUserPrincipal().getName());
+            p.setLastModifiedDate(LocalDateTime.now());
             return productRepository.save(p);})
                 .orElseThrow(()->new ResourceNotFoundException("product","id",id));
     }
