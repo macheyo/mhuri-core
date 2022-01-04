@@ -4,9 +4,7 @@ import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.RepresentationModelAssembler;
 import org.springframework.stereotype.Component;
-import zw.co.macheyo.mhuricore.controller.AccountController;
 import zw.co.macheyo.mhuricore.controller.TransactionController;
-import zw.co.macheyo.mhuricore.model.Account;
 import zw.co.macheyo.mhuricore.model.Transaction;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;

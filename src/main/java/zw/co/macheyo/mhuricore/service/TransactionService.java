@@ -1,7 +1,6 @@
 package zw.co.macheyo.mhuricore.service;
 
 import org.springframework.hateoas.EntityModel;
-import zw.co.macheyo.mhuricore.model.Account;
 import zw.co.macheyo.mhuricore.model.Transaction;
 
 import javax.servlet.http.HttpServletRequest;

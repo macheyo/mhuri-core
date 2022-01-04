@@ -6,15 +6,13 @@ import org.springframework.hateoas.EntityModel;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import zw.co.macheyo.mhuricore.exception.ResourceNotFoundException;
-import zw.co.macheyo.mhuricore.model.*;
+import zw.co.macheyo.mhuricore.model.Item;
+import zw.co.macheyo.mhuricore.model.Order;
+import zw.co.macheyo.mhuricore.model.Status;
 import zw.co.macheyo.mhuricore.modelAssembler.OrderModelAssembler;
-import zw.co.macheyo.mhuricore.repository.AccountRepository;
 import zw.co.macheyo.mhuricore.repository.ContactRepository;
 import zw.co.macheyo.mhuricore.repository.OrderRepository;
-import zw.co.macheyo.mhuricore.repository.TransactionRepository;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.util.List;

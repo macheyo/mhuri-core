@@ -20,7 +20,6 @@ import javax.persistence.*;
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,property = "id")
 @Getter
 @Setter
-@ToString
 @RequiredArgsConstructor
 public class Item extends BaseEntity{
     @JsonBackReference

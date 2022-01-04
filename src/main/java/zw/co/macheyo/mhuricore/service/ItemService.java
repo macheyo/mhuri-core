@@ -2,7 +2,6 @@ package zw.co.macheyo.mhuricore.service;
 
 import org.springframework.hateoas.EntityModel;
 import zw.co.macheyo.mhuricore.model.Item;
-import zw.co.macheyo.mhuricore.model.Order;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;

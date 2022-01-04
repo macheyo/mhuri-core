@@ -17,7 +17,6 @@ import java.util.Set;
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,property = "id")
 @Getter
 @Setter
-@ToString
 @RequiredArgsConstructor
 @Table(name = "orders")
 public class Order extends BaseEntity{

@@ -6,7 +6,6 @@ import org.springframework.hateoas.server.RepresentationModelAssembler;
 import org.springframework.stereotype.Component;
 import zw.co.macheyo.mhuricore.controller.OrderController;
 import zw.co.macheyo.mhuricore.model.Item;
-import zw.co.macheyo.mhuricore.model.Order;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;

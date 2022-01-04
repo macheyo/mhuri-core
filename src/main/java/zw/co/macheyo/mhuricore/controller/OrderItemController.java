@@ -5,9 +5,7 @@ import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.web.bind.annotation.*;
 import zw.co.macheyo.mhuricore.model.Item;
-import zw.co.macheyo.mhuricore.model.Order;
 import zw.co.macheyo.mhuricore.modelAssembler.ItemModelAssembler;
-import zw.co.macheyo.mhuricore.modelAssembler.OrderModelAssembler;
 import zw.co.macheyo.mhuricore.service.ItemService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,7 +13,6 @@ import javax.validation.Valid;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
-import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @RestController
 @RequestMapping("/order")

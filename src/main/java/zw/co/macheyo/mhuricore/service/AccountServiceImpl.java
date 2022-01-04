@@ -6,9 +6,7 @@ import org.springframework.hateoas.EntityModel;
 import org.springframework.stereotype.Service;
 import zw.co.macheyo.mhuricore.exception.ResourceNotFoundException;
 import zw.co.macheyo.mhuricore.model.Account;
-import zw.co.macheyo.mhuricore.model.Contact;
 import zw.co.macheyo.mhuricore.modelAssembler.AccountModelAssembler;
-import zw.co.macheyo.mhuricore.modelAssembler.ContactModelAssembler;
 import zw.co.macheyo.mhuricore.repository.AccountRepository;
 
 import javax.servlet.http.HttpServletRequest;

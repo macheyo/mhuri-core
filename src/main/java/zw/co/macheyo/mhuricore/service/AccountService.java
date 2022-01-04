@@ -2,7 +2,6 @@ package zw.co.macheyo.mhuricore.service;
 
 import org.springframework.hateoas.EntityModel;
 import zw.co.macheyo.mhuricore.model.Account;
-import zw.co.macheyo.mhuricore.model.Contact;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;

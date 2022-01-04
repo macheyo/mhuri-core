@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.stereotype.Service;
 import zw.co.macheyo.mhuricore.exception.ResourceNotFoundException;
-import zw.co.macheyo.mhuricore.model.Account;
 import zw.co.macheyo.mhuricore.model.Transaction;
 import zw.co.macheyo.mhuricore.modelAssembler.TransactionModelAssembler;
 import zw.co.macheyo.mhuricore.repository.TransactionRepository;

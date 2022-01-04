@@ -5,9 +5,7 @@ import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.web.bind.annotation.*;
 import zw.co.macheyo.mhuricore.model.Account;
-import zw.co.macheyo.mhuricore.model.Contact;
 import zw.co.macheyo.mhuricore.modelAssembler.AccountModelAssembler;
-import zw.co.macheyo.mhuricore.modelAssembler.ContactModelAssembler;
 import zw.co.macheyo.mhuricore.service.AccountService;
 
 import javax.servlet.http.HttpServletRequest;
