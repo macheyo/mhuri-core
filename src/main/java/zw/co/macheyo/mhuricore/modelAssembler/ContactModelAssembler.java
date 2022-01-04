@@ -4,21 +4,21 @@ import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.RepresentationModelAssembler;
 import org.springframework.stereotype.Component;
-import zw.co.macheyo.mhuricore.controller.OrderController;
-import zw.co.macheyo.mhuricore.model.Order;
+import zw.co.macheyo.mhuricore.controller.ContactController;
+import zw.co.macheyo.mhuricore.model.Contact;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @Component
-public class OrderModelAssembler implements RepresentationModelAssembler<Order, EntityModel<Order>> {
+public class ContactModelAssembler implements RepresentationModelAssembler<Contact, EntityModel<Contact>> {
     @Override
-    public EntityModel<Order> toModel(Order entity) {
-        return EntityModel.of(entity, linkTo(methodOn(OrderController.class).list()).withRel("orders"));
+    public EntityModel<Contact> toModel(Contact entity) {
+        return EntityModel.of(entity, linkTo(methodOn(ContactController.class).list()).withRel("contacts"));
     }
 
     @Override
-    public CollectionModel<EntityModel<Order>> toCollectionModel(Iterable<? extends Order> entities) {
+    public CollectionModel<EntityModel<Contact>> toCollectionModel(Iterable<? extends Contact> entities) {
         return RepresentationModelAssembler.super.toCollectionModel(entities);
     }
 }

@@ -7,6 +7,7 @@ import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.envers.Audited;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -19,10 +20,10 @@ import java.util.Set;
 @Setter
 @ToString
 @RequiredArgsConstructor
-@Table(name = "products")
 public class Product extends BaseEntity{
     @Size(max=255)
     private String name;
+    @Column(nullable = false)
     private Double price;
     @OneToMany(mappedBy = "product")
     @JsonBackReference

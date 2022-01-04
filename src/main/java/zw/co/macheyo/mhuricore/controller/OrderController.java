@@ -4,9 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.web.bind.annotation.*;
-import zw.co.macheyo.mhuricore.model.Customer;
 import zw.co.macheyo.mhuricore.model.Order;
-import zw.co.macheyo.mhuricore.modelAssembler.CustomerModelAssembler;
 import zw.co.macheyo.mhuricore.modelAssembler.OrderModelAssembler;
 import zw.co.macheyo.mhuricore.service.OrderService;
 
@@ -45,5 +43,11 @@ public class OrderController {
     public EntityModel<Order> update(@PathVariable Long id, @Valid @RequestBody Order order, HttpServletRequest httpServletRequest){
         Order updatedOrder = orderService.update(id, order, httpServletRequest);
         return assembler.toModel(updatedOrder);
+    }
+
+    @PostMapping("/close/{id}")
+    public EntityModel<Order> close(@PathVariable Long id, HttpServletRequest httpServletRequest){
+        Order closedOrder = orderService.close(id, httpServletRequest);
+        return assembler.toModel(closedOrder);
     }
 }

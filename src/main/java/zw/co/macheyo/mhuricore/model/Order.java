@@ -1,7 +1,6 @@
 package zw.co.macheyo.mhuricore.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.*;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -15,6 +14,7 @@ import java.util.Set;
 
 @Audited
 @Entity
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,property = "id")
 @Getter
 @Setter
 @ToString
@@ -26,11 +26,11 @@ public class Order extends BaseEntity{
     @JoinColumn(nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @ToString.Exclude
-    private Customer customer;
+    private Contact contact;
     @OneToMany(mappedBy = "order")
-    @JsonBackReference
+    @JsonManagedReference
     @ToString.Exclude
     private Set<Item> items;
-    private Status status;
+    private Status status = Status.OPEN;
 
 }

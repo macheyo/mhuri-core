@@ -20,13 +20,13 @@ import java.util.Set;
 @Setter
 @ToString
 @RequiredArgsConstructor
-@Table(name = "customers")
-public class Customer extends BaseEntity{
+public class Contact extends BaseEntity{
     @Size(max=255)
     private String name;
     @Column(unique = true)
     private String msisdn;
-    @OneToMany(mappedBy = "customer")
+    private ContactType contactType;
+    @OneToMany(mappedBy = "contact")
     @JsonBackReference
     @ToString.Exclude
     private Set<Order> orders;
