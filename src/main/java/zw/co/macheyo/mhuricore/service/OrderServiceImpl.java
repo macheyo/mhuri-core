@@ -15,6 +15,7 @@ import zw.co.macheyo.mhuricore.repository.OrderRepository;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -31,6 +32,8 @@ public class OrderServiceImpl implements OrderService{
     ModelMapper modelMapper;
     @Autowired
     DoubleEntryService doubleEntryService;
+    @Autowired
+    InventoryService inventoryService;
 
     @Override
     public Order save(Order order, HttpServletRequest httpServletRequest) {
@@ -58,6 +61,11 @@ public class OrderServiceImpl implements OrderService{
                     o.setLastModifiedBy(httpServletRequest.getUserPrincipal().getName());
                     o.setLastModifiedDate(LocalDateTime.now());
                     o.setStatus(Status.CLOSED);
+                    Iterator<Item> item = o.getItems().iterator();
+                    while (item.hasNext()){
+                        Item i = item.next();
+                        inventoryService.adjust(i.getProduct(),i.getQuantity());
+                    }
                     doubleEntryService.record(
                             "cash",
                             "sales",

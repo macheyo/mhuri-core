@@ -1,6 +1,7 @@
 package zw.co.macheyo.mhuricore.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -10,7 +11,6 @@ import org.hibernate.envers.Audited;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
-import javax.persistence.Table;
 import javax.validation.constraints.Size;
 import java.util.Set;
 
@@ -28,5 +28,8 @@ public class Product extends BaseEntity{
     @JsonBackReference
     @ToString.Exclude
     private Set<Item> orderItems;
+    @JsonIgnore
+    @OneToMany(mappedBy = "product")
+    Set<Inventory> order_runs;
 
 }

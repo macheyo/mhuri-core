@@ -1,6 +1,7 @@
 package zw.co.macheyo.mhuricore.model;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -20,12 +21,11 @@ import java.math.BigInteger;
 public class AccountTransaction {
     @EmbeddedId
     AccountTransactionKey id;
-
+    @JsonIgnore
     @ManyToOne
     @MapsId("accountId")
     @JoinColumn(name = "account_id")
     Account account;
-
     @ManyToOne
     @MapsId("transactionId")
     @JoinColumn(name = "transaction_id")
