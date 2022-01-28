@@ -14,7 +14,7 @@ public class ResourceNotFoundAdvice {
     @ExceptionHandler(ResourceNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     ApiResponse<?> ResourceNotFoundHandler(ResourceNotFoundException ex) {
-        ApiResponse<?> response = new ApiResponse();
+        ApiResponse<?> response = new ApiResponse<>();
         response.setMessage(ex.getMessage());
         response.setStatus(HttpStatus.NOT_FOUND.value());
 

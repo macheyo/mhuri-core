@@ -14,7 +14,7 @@ public class InventoryNotEnoughAdvice {
     @ExceptionHandler(InventoryNotEnoughException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     ApiResponse<?> InventoryNotEnoughHandler(InventoryNotEnoughException ex) {
-        ApiResponse<?> response = new ApiResponse();
+        ApiResponse<?> response = new ApiResponse<>();
         response.setMessage(ex.getMessage());
         response.setStatus(HttpStatus.NOT_FOUND.value());
         return response;

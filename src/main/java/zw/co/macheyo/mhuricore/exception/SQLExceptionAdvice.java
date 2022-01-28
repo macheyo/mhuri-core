@@ -14,7 +14,7 @@ public class SQLExceptionAdvice {
     @ExceptionHandler(SQLException.class)
     @ResponseStatus(HttpStatus.CONFLICT)
     ApiResponse<?> SQLExceptionHandler(SQLException ex) {
-        ApiResponse<?> response = new ApiResponse();
+        ApiResponse<?> response = new ApiResponse<>();
         response.setMessage(ex.getMessage());
         response.setStatus(HttpStatus.CONFLICT.value());
         return response;

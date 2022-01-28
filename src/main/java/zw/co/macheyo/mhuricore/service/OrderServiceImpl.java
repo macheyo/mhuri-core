@@ -61,10 +61,8 @@ public class OrderServiceImpl implements OrderService{
                     o.setLastModifiedBy(httpServletRequest.getUserPrincipal().getName());
                     o.setLastModifiedDate(LocalDateTime.now());
                     o.setStatus(Status.CLOSED);
-                    Iterator<Item> item = o.getItems().iterator();
-                    while (item.hasNext()){
-                        Item i = item.next();
-                        inventoryService.adjust(i.getProduct(),i.getQuantity());
+                    for (Item i : o.getItems()) {
+                        inventoryService.adjust(i.getProduct(), i.getQuantity());
                     }
                     doubleEntryService.record(
                             "cash",

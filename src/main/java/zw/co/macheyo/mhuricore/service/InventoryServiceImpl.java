@@ -41,12 +41,10 @@ public class InventoryServiceImpl implements InventoryService{
 
     @Override
     public void adjust(Product product, double quantity) {
-        if(isInventoryAvailable(product, quantity));
+        if(isInventoryAvailable(product, quantity))
         {
             List<Inventory> inventoryList = product.getOrder_runs().stream().sorted(Comparator.comparing(Inventory::getCreatedDate)).collect(Collectors.toList());
-            ListIterator<Inventory> inventory = inventoryList.listIterator();
-            while (inventory.hasNext()) {
-                Inventory i = inventory.next();
+            for (Inventory i : inventoryList) {
                 if (i.getAvailableQuantity() > 0) {
                     if (i.getAvailableQuantity() < quantity) {
                         quantity -= i.getAvailableQuantity();
