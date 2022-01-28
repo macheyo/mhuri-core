@@ -20,4 +20,5 @@ import java.util.Set;
 public class Purchase extends BaseEntity {
     @OneToMany(mappedBy = "purchase")
     Set<Inventory> products;
+    private Status status = Status.OPEN;
 }

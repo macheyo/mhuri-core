@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.web.bind.annotation.*;
+import zw.co.macheyo.mhuricore.model.Order;
 import zw.co.macheyo.mhuricore.model.Purchase;
 import zw.co.macheyo.mhuricore.modelAssembler.PurchaseModelAssembler;
 import zw.co.macheyo.mhuricore.service.PurchaseService;
@@ -43,5 +44,11 @@ public class PurchaseController {
     public EntityModel<Purchase> update(@PathVariable Long id, @Valid @RequestBody Purchase purchase, HttpServletRequest httpServletRequest){
         Purchase updatedPurchase = purchaseService.update(id, purchase, httpServletRequest);
         return assembler.toModel(updatedPurchase);
+    }
+
+    @PostMapping("/close/{id}")
+    public EntityModel<Purchase> close(@PathVariable Long id, HttpServletRequest httpServletRequest){
+        Purchase closedPurchase = purchaseService.close(id, httpServletRequest);
+        return assembler.toModel(closedPurchase);
     }
 }
