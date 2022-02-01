@@ -21,4 +21,6 @@ public interface PurchaseService {
 
     @Transactional
     Purchase close(Long id, HttpServletRequest httpServletRequest);
+
+    void deleteById(Long id);
 }

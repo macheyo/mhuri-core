@@ -3,6 +3,8 @@ package zw.co.macheyo.mhuricore.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.IanaLinkRelations;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import zw.co.macheyo.mhuricore.model.Item;
 import zw.co.macheyo.mhuricore.modelAssembler.ItemModelAssembler;
@@ -23,8 +25,11 @@ public class OrderItemController {
     ItemModelAssembler assembler;
 
     @PostMapping("/{orderId}/item")
-    public EntityModel<Item> create(@PathVariable Long orderId, @Valid @RequestBody Item item, HttpServletRequest httpServletRequest) {
-        return assembler.toModel(itemService.save(orderId, item, httpServletRequest));
+    public ResponseEntity<?> create(@PathVariable Long orderId, @Valid @RequestBody Item item, HttpServletRequest httpServletRequest) {
+        EntityModel<Item> entityModel = assembler.toModel(itemService.save(orderId, item, httpServletRequest));
+        return ResponseEntity
+                .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
+                .body(entityModel);
     }
 
     @GetMapping("/item/list")
@@ -33,14 +38,17 @@ public class OrderItemController {
     }
 
     @GetMapping("/item/{id}")
-    public EntityModel<Item> getById(@PathVariable Long id) {
-        Item item = itemService.findById(id);
-        return assembler.toModel(item);
+    public ResponseEntity<?> getById(@PathVariable Long id) {
+        EntityModel<Item> entityModel = assembler.toModel(itemService.findById(id));
+        return ResponseEntity
+                .ok(entityModel);
     }
 
     @PutMapping("/update/{orderId}/item/{itemId}")
-    public EntityModel<Item> update(@PathVariable Long orderId, @PathVariable Long itemId, @Valid @RequestBody Item item, HttpServletRequest httpServletRequest){
-        Item updatedItem = itemService.update(orderId, itemId, item, httpServletRequest);
-        return assembler.toModel(updatedItem);
+    public ResponseEntity<?> update(@PathVariable Long orderId, @PathVariable Long itemId, @Valid @RequestBody Item item, HttpServletRequest httpServletRequest){
+        EntityModel<Item> entityModel = assembler.toModel(itemService.update(orderId, itemId, item, httpServletRequest));
+        return ResponseEntity
+                .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
+                .body(entityModel);
     }
 }

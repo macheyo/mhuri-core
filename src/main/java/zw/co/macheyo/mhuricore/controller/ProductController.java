@@ -39,9 +39,11 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
-    public EntityModel<Product> getById(@PathVariable Long id) {
-        Product product = productService.findById(id);
-        return assembler.toModel(product);
+    public ResponseEntity<?> getById(@PathVariable Long id) {
+        EntityModel<Product> entityModel = assembler.toModel(productService.findById(id));
+        return ResponseEntity
+                .ok(entityModel);
+
     }
 
     @PutMapping("/update/{id}")
@@ -54,7 +56,7 @@ public class ProductController {
     }
 
     @DeleteMapping("/{id}")
-    ResponseEntity<?> deleteProduct(@PathVariable Long id){
+    ResponseEntity<?> deleteProduct(@PathVariable Long id, HttpServletRequest httpServletRequest){
         productService.deleteById(id);
         return ResponseEntity.noContent().build();
     }

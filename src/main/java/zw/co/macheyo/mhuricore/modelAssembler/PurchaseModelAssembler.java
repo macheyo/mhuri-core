@@ -16,7 +16,9 @@ public class PurchaseModelAssembler implements RepresentationModelAssembler<Purc
     @NonNull
     @Override
     public EntityModel<Purchase> toModel(Purchase entity) {
-        return EntityModel.of(entity, linkTo(methodOn(PurchaseController.class).list()).withRel("purchases"));
+        return EntityModel.of(entity,
+                linkTo(methodOn(PurchaseController.class).getById(entity.getId())).withSelfRel(),
+                linkTo(methodOn(PurchaseController.class).list()).withRel("purchases"));
     }
     @NonNull
     @Override

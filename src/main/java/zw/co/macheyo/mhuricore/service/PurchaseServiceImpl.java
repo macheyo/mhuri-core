@@ -3,6 +3,7 @@ package zw.co.macheyo.mhuricore.service;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.IanaLinkRelations;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import zw.co.macheyo.mhuricore.exception.ResourceNotFoundException;
@@ -62,15 +63,21 @@ public class PurchaseServiceImpl implements PurchaseService{
                     p.setLastModifiedBy(httpServletRequest.getUserPrincipal().getName());
                     p.setLastModifiedDate(LocalDateTime.now());
                     p.setStatus(Status.CLOSED);
+                    EntityModel<Purchase> entityModel = assembler.toModel(findById(p.getId()));
                     doubleEntryService.record(
-                            "cash",
                             "purchases",
-                            "reference",
+                            "cash",
+                            entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri().toString(),
                             purchaseTotalPrice(p.getProducts()),
                             httpServletRequest
                     );
                     return purchaseRepository.save(p);})
                 .orElseThrow(()->new ResourceNotFoundException("purchase","id",id));
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        purchaseRepository.deleteById(id);
     }
 
     private Double purchaseTotalPrice(Set<Inventory> products) {

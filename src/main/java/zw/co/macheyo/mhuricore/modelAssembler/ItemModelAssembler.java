@@ -16,7 +16,9 @@ public class ItemModelAssembler implements RepresentationModelAssembler<Item, En
     @NonNull
     @Override
     public EntityModel<Item> toModel(Item entity) {
-        return EntityModel.of(entity, linkTo(methodOn(OrderController.class).list()).withRel("order items"));
+        return EntityModel.of(entity,
+                linkTo(methodOn(OrderController.class).getById(entity.getId())).withSelfRel(),
+                linkTo(methodOn(OrderController.class).list()).withRel("order items"));
     }
     @NonNull
     @Override

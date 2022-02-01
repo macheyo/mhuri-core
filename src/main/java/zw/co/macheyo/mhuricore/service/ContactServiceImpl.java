@@ -52,4 +52,9 @@ public class ContactServiceImpl implements ContactService {
     public Contact findById(Long id) {
         return contactRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("contact","id",id));
     }
+
+    @Override
+    public void deleteById(Long id) {
+        contactRepository.deleteById(id);
+    }
 }

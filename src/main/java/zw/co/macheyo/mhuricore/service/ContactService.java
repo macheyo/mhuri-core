@@ -14,4 +14,6 @@ public interface ContactService {
     List<EntityModel<Contact>> findAll();
 
     Contact findById(Long id);
+
+    void deleteById(Long id);
 }

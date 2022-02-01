@@ -3,6 +3,8 @@ package zw.co.macheyo.mhuricore.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.IanaLinkRelations;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import zw.co.macheyo.mhuricore.model.Order;
 import zw.co.macheyo.mhuricore.modelAssembler.OrderModelAssembler;
@@ -24,8 +26,11 @@ public class OrderController {
     OrderModelAssembler assembler;
 
     @PostMapping(consumes = APPLICATION_JSON_VALUE)
-    public EntityModel<Order> create(@Valid @RequestBody Order order, HttpServletRequest httpServletRequest) {
-        return assembler.toModel(orderService.save(order, httpServletRequest));
+    public ResponseEntity<?> create(@Valid @RequestBody Order order, HttpServletRequest httpServletRequest) {
+        EntityModel<Order> entityModel = assembler.toModel(orderService.save(order, httpServletRequest));
+        return ResponseEntity
+                .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
+                .body(entityModel);
     }
 
     @GetMapping("/list")
@@ -34,20 +39,31 @@ public class OrderController {
     }
 
     @GetMapping("/{id}")
-    public EntityModel<Order> getById(@PathVariable Long id) {
-        Order order = orderService.findById(id);
-        return assembler.toModel(order);
+    public ResponseEntity<?> getById(@PathVariable Long id) {
+        EntityModel<Order> entityModel = assembler.toModel(orderService.findById(id));
+        return ResponseEntity
+                .ok(entityModel);
     }
 
     @PutMapping("/update/{id}")
-    public EntityModel<Order> update(@PathVariable Long id, @Valid @RequestBody Order order, HttpServletRequest httpServletRequest){
-        Order updatedOrder = orderService.update(id, order, httpServletRequest);
-        return assembler.toModel(updatedOrder);
+    public ResponseEntity<?> update(@PathVariable Long id, @Valid @RequestBody Order order, HttpServletRequest httpServletRequest){
+        EntityModel<Order> entityModel = assembler.toModel(orderService.update(id, order, httpServletRequest));
+        return ResponseEntity
+                .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
+                .body(entityModel);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> delete(@PathVariable Long id, HttpServletRequest httpServletRequest){
+        orderService.deleteById(id);
+        return ResponseEntity
+                .noContent().build();
     }
 
     @PostMapping("/close/{id}")
-    public EntityModel<Order> close(@PathVariable Long id, HttpServletRequest httpServletRequest){
-        Order closedOrder = orderService.close(id, httpServletRequest);
-        return assembler.toModel(closedOrder);
+    public ResponseEntity<?> close(@PathVariable Long id, HttpServletRequest httpServletRequest){
+        EntityModel<Order> entityModel= assembler.toModel(orderService.close(id,httpServletRequest));
+        return ResponseEntity
+                .ok(entityModel);
     }
 }

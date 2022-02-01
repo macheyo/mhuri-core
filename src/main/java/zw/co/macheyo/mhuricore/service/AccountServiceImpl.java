@@ -51,4 +51,9 @@ public class AccountServiceImpl implements AccountService{
     public Account findById(Long id) {
         return accountRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("account","id",id));
     }
+
+    @Override
+    public void deleteById(Long id) {
+        accountRepository.deleteById(id);
+    }
 }

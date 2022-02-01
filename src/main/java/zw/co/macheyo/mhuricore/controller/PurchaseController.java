@@ -3,6 +3,8 @@ package zw.co.macheyo.mhuricore.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.IanaLinkRelations;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import zw.co.macheyo.mhuricore.model.Order;
 import zw.co.macheyo.mhuricore.model.Purchase;
@@ -25,8 +27,11 @@ public class PurchaseController {
     PurchaseModelAssembler assembler;
 
     @PostMapping(consumes = APPLICATION_JSON_VALUE)
-    public EntityModel<Purchase> create(@Valid @RequestBody Purchase purchase, HttpServletRequest httpServletRequest) {
-        return assembler.toModel(purchaseService.save(purchase, httpServletRequest));
+    public ResponseEntity<?> create(@Valid @RequestBody Purchase purchase, HttpServletRequest httpServletRequest) {
+        EntityModel<Purchase> entityModel = assembler.toModel(purchaseService.save(purchase, httpServletRequest));
+        return ResponseEntity
+                .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
+                .body(entityModel);
     }
 
     @GetMapping("/list")
@@ -35,20 +40,31 @@ public class PurchaseController {
     }
 
     @GetMapping("/{id}")
-    public EntityModel<Purchase> getById(@PathVariable Long id) {
-        Purchase purchase = purchaseService.findById(id);
-        return assembler.toModel(purchase);
+    public ResponseEntity<?> getById(@PathVariable Long id) {
+        EntityModel<Purchase> entityModel = assembler.toModel(purchaseService.findById(id));
+        return ResponseEntity
+                .ok(entityModel);
     }
 
     @PutMapping("/update/{id}")
-    public EntityModel<Purchase> update(@PathVariable Long id, @Valid @RequestBody Purchase purchase, HttpServletRequest httpServletRequest){
-        Purchase updatedPurchase = purchaseService.update(id, purchase, httpServletRequest);
-        return assembler.toModel(updatedPurchase);
+    public ResponseEntity<?> update(@PathVariable Long id, @Valid @RequestBody Purchase purchase, HttpServletRequest httpServletRequest){
+        EntityModel<Purchase> entityModel = assembler.toModel(purchaseService.update(id, purchase, httpServletRequest));
+        return ResponseEntity
+                .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
+                .body(entityModel);
     }
 
     @PostMapping("/close/{id}")
-    public EntityModel<Purchase> close(@PathVariable Long id, HttpServletRequest httpServletRequest){
-        Purchase closedPurchase = purchaseService.close(id, httpServletRequest);
-        return assembler.toModel(closedPurchase);
+    public ResponseEntity<?> close(@PathVariable Long id, HttpServletRequest httpServletRequest){
+        EntityModel<Purchase> entityModel = assembler.toModel(purchaseService.close(id, httpServletRequest));
+        return ResponseEntity
+                .ok(entityModel);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> delete(@PathVariable Long id, HttpServletRequest httpServletRequest){
+        purchaseService.deleteById(id);
+        return ResponseEntity
+                .noContent().build();
     }
 }

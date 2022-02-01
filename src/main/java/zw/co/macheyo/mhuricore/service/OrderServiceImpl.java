@@ -3,6 +3,7 @@ package zw.co.macheyo.mhuricore.service;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.IanaLinkRelations;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import zw.co.macheyo.mhuricore.exception.InventoryNotEnoughException;
@@ -61,10 +62,11 @@ public class OrderServiceImpl implements OrderService{
                     for (Item i : o.getItems()) {
                         inventoryService.adjust(i.getProduct(), i.getQuantity());
                     }
+                    EntityModel <Order> entityModel = assembler.toModel(findById(o.getId()));
                     doubleEntryService.record(
                             "cash",
                             "sales",
-                            "reference",
+                            entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri().toString(),
                             orderTotalPrice(o.getItems()),
                             httpServletRequest
                             );
@@ -82,6 +84,11 @@ public class OrderServiceImpl implements OrderService{
     @Override
     public Order findById(Long id) {
         return orderRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("order","id",id));
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        orderRepository.deleteById(id);
     }
 
     private double orderTotalPrice(Set<Item> items){

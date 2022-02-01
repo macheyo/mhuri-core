@@ -14,4 +14,6 @@ public interface AccountService{
     List<EntityModel<Account>> findAll();
 
     Account findById(Long id);
+
+    void deleteById(Long id);
 }

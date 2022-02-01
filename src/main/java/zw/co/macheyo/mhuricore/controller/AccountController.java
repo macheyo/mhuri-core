@@ -3,6 +3,8 @@ package zw.co.macheyo.mhuricore.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.IanaLinkRelations;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import zw.co.macheyo.mhuricore.model.Account;
 import zw.co.macheyo.mhuricore.modelAssembler.AccountModelAssembler;
@@ -24,8 +26,11 @@ public class AccountController {
     AccountModelAssembler assembler;
 
     @PostMapping(consumes = APPLICATION_JSON_VALUE)
-    public EntityModel<Account> create(@Valid @RequestBody Account account, HttpServletRequest httpServletRequest) {
-        return assembler.toModel(accountService.save(account, httpServletRequest));
+    public ResponseEntity<?> create(@Valid @RequestBody Account account, HttpServletRequest httpServletRequest) {
+        EntityModel<Account> entityModel = assembler.toModel(accountService.save(account, httpServletRequest));
+        return ResponseEntity
+                .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
+                .body(entityModel);
     }
 
     @GetMapping("/list")
@@ -34,14 +39,23 @@ public class AccountController {
     }
 
     @GetMapping("/{id}")
-    public EntityModel<Account> getById(@PathVariable Long id) {
-        Account account = accountService.findById(id);
-        return assembler.toModel(account);
+    public ResponseEntity<?> getById(@PathVariable Long id) {
+        EntityModel<Account> entityModel = assembler.toModel(accountService.findById(id));
+        return ResponseEntity
+                .ok(entityModel);
     }
 
     @PutMapping("/update/{id}")
-    public EntityModel<Account> update(@PathVariable Long id, @Valid @RequestBody Account account, HttpServletRequest httpServletRequest){
-        Account updatedAccount = accountService.update(id, account, httpServletRequest);
-        return assembler.toModel(updatedAccount);
+    public ResponseEntity<?> update(@PathVariable Long id, @Valid @RequestBody Account account, HttpServletRequest httpServletRequest){
+        EntityModel<Account> entityModel = assembler.toModel(accountService.update(id, account, httpServletRequest));
+        return ResponseEntity
+                .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
+                .body(entityModel);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> delete(@PathVariable Long id, HttpServletRequest httpServletRequest){
+        accountService.deleteById(id);
+        return ResponseEntity.noContent().build();
     }
 }
