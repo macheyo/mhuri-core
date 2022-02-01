@@ -16,7 +16,9 @@ public class TransactionModelAssembler implements RepresentationModelAssembler<T
     @NonNull
     @Override
     public EntityModel<Transaction> toModel(Transaction entity) {
-        return EntityModel.of(entity, linkTo(methodOn(TransactionController.class).list()).withRel("transactions"));
+        return EntityModel.of(entity,
+                linkTo(methodOn(TransactionController.class).getById(entity.getId())).withSelfRel(),
+                linkTo(methodOn(TransactionController.class).list()).withRel("transactions"));
     }
     @NonNull
     @Override
