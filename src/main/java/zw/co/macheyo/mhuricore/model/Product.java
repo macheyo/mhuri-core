@@ -22,8 +22,6 @@ import java.util.Set;
 public class Product extends BaseEntity{
     @Size(max=255)
     private String name;
-    @Column(nullable = false)
-    private Double price;
     @OneToMany(mappedBy = "product")
     @JsonBackReference
     @ToString.Exclude
@@ -31,5 +29,6 @@ public class Product extends BaseEntity{
     @JsonIgnore
     @OneToMany(mappedBy = "product")
     Set<Inventory> order_runs;
+    private double price;
 
 }

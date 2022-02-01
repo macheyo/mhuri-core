@@ -3,6 +3,8 @@ package zw.co.macheyo.mhuricore.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.IanaLinkRelations;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import zw.co.macheyo.mhuricore.model.Product;
 import zw.co.macheyo.mhuricore.modelAssembler.ProductModelAssembler;
@@ -24,8 +26,11 @@ public class ProductController {
     ProductModelAssembler assembler;
 
     @PostMapping(consumes = APPLICATION_JSON_VALUE)
-    public EntityModel<Product> create(@Valid @RequestBody Product product, HttpServletRequest httpServletRequest) {
-        return assembler.toModel(productService.save(product, httpServletRequest));
+    public ResponseEntity<?> create(@Valid @RequestBody Product product, HttpServletRequest httpServletRequest) {
+        EntityModel<Product> entityModel = assembler.toModel(productService.save(product, httpServletRequest));
+        return ResponseEntity
+                .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
+                .body(entityModel);
     }
 
     @GetMapping("/list")
@@ -40,8 +45,17 @@ public class ProductController {
     }
 
     @PutMapping("/update/{id}")
-    public EntityModel<Product> update(@PathVariable Long id, @Valid @RequestBody Product product, HttpServletRequest httpServletRequest){
+    public ResponseEntity<?> update(@PathVariable Long id, @Valid @RequestBody Product product, HttpServletRequest httpServletRequest){
         Product updatedProduct = productService.update(id, product, httpServletRequest);
-        return assembler.toModel(updatedProduct);
+        EntityModel<Product> entityModel = assembler.toModel(updatedProduct);
+        return ResponseEntity
+                .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
+                .body(entityModel);
+    }
+
+    @DeleteMapping("/{id}")
+    ResponseEntity<?> deleteProduct(@PathVariable Long id){
+        productService.deleteById(id);
+        return ResponseEntity.noContent().build();
     }
 }

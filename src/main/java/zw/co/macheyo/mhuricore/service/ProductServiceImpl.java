@@ -34,7 +34,6 @@ public class ProductServiceImpl implements ProductService{
     public Product update(Long id, Product product, HttpServletRequest httpServletRequest) {
         return productRepository.findById(id).map(p->{
             p.setName(product.getName());
-            p.setPrice(product.getPrice());
             p.setLastModifiedBy(httpServletRequest.getUserPrincipal().getName());
             p.setLastModifiedDate(LocalDateTime.now());
             return productRepository.save(p);})
@@ -51,5 +50,10 @@ public class ProductServiceImpl implements ProductService{
     @Override
     public Product findById(Long id) {
         return productRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("product","id",id));
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        productRepository.deleteById(id);
     }
 }
