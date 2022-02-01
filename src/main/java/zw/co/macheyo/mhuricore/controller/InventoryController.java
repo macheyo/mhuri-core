@@ -21,7 +21,7 @@ public class InventoryController {
     @Autowired
     InventoryModelAssembler assembler;
 
-    @PostMapping("/save/purchase/{purchaseId}/product/{productId}")
+    @PostMapping("/purchase/{purchaseId}/product/{productId}")
     public EntityModel<Inventory> create(@PathVariable Long purchaseId,@PathVariable Long productId,@Valid @RequestBody InventoryDto inventory, HttpServletRequest httpServletRequest) {
         return assembler.toModel(inventoryService.record(purchaseId,productId, inventory, httpServletRequest));
     }

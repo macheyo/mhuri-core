@@ -58,11 +58,11 @@ public class PurchaseServiceImpl implements PurchaseService{
 
     @Override
     @Transactional
-    public Purchase close(Long id, HttpServletRequest httpServletRequest) {
+    public Purchase complete(Long id, HttpServletRequest httpServletRequest) {
         return purchaseRepository.findById(id).map(p->{
                     p.setLastModifiedBy(httpServletRequest.getUserPrincipal().getName());
                     p.setLastModifiedDate(LocalDateTime.now());
-                    p.setStatus(Status.CLOSED);
+                    p.setStatus(Status.COMPLETE);
                     EntityModel<Purchase> entityModel = assembler.toModel(findById(p.getId()));
                     doubleEntryService.record(
                             "purchases",

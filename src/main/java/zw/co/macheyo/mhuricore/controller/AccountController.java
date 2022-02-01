@@ -45,7 +45,7 @@ public class AccountController {
                 .ok(entityModel);
     }
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/{id}/update")
     public ResponseEntity<?> update(@PathVariable Long id, @Valid @RequestBody Account account, HttpServletRequest httpServletRequest){
         EntityModel<Account> entityModel = assembler.toModel(accountService.update(id, account, httpServletRequest));
         return ResponseEntity

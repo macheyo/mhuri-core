@@ -6,7 +6,6 @@ import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.IanaLinkRelations;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import zw.co.macheyo.mhuricore.model.Order;
 import zw.co.macheyo.mhuricore.model.Purchase;
 import zw.co.macheyo.mhuricore.modelAssembler.PurchaseModelAssembler;
 import zw.co.macheyo.mhuricore.service.PurchaseService;
@@ -46,7 +45,7 @@ public class PurchaseController {
                 .ok(entityModel);
     }
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/{id}/update")
     public ResponseEntity<?> update(@PathVariable Long id, @Valid @RequestBody Purchase purchase, HttpServletRequest httpServletRequest){
         EntityModel<Purchase> entityModel = assembler.toModel(purchaseService.update(id, purchase, httpServletRequest));
         return ResponseEntity
@@ -54,9 +53,9 @@ public class PurchaseController {
                 .body(entityModel);
     }
 
-    @PostMapping("/close/{id}")
-    public ResponseEntity<?> close(@PathVariable Long id, HttpServletRequest httpServletRequest){
-        EntityModel<Purchase> entityModel = assembler.toModel(purchaseService.close(id, httpServletRequest));
+    @PostMapping("/{id}/complete")
+    public ResponseEntity<?> complete(@PathVariable Long id, HttpServletRequest httpServletRequest){
+        EntityModel<Purchase> entityModel = assembler.toModel(purchaseService.complete(id, httpServletRequest));
         return ResponseEntity
                 .ok(entityModel);
     }

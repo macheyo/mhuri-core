@@ -12,7 +12,7 @@ public interface OrderService {
 
     Order update(Long id, Order order, HttpServletRequest httpServletRequest);
 
-    Order close(Long id, HttpServletRequest httpServletRequest);
+    Order complete(Long id, HttpServletRequest httpServletRequest);
 
     List<EntityModel<Order>> findAll();
 

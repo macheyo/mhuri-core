@@ -46,7 +46,7 @@ public class ProductController {
 
     }
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/{id}/update")
     public ResponseEntity<?> update(@PathVariable Long id, @Valid @RequestBody Product product, HttpServletRequest httpServletRequest){
         Product updatedProduct = productService.update(id, product, httpServletRequest);
         EntityModel<Product> entityModel = assembler.toModel(updatedProduct);

@@ -45,7 +45,7 @@ public class OrderController {
                 .ok(entityModel);
     }
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/{id}/update")
     public ResponseEntity<?> update(@PathVariable Long id, @Valid @RequestBody Order order, HttpServletRequest httpServletRequest){
         EntityModel<Order> entityModel = assembler.toModel(orderService.update(id, order, httpServletRequest));
         return ResponseEntity
@@ -60,9 +60,9 @@ public class OrderController {
                 .noContent().build();
     }
 
-    @PostMapping("/close/{id}")
-    public ResponseEntity<?> close(@PathVariable Long id, HttpServletRequest httpServletRequest){
-        EntityModel<Order> entityModel= assembler.toModel(orderService.close(id,httpServletRequest));
+    @PostMapping("/{id}/complete")
+    public ResponseEntity<?> complete(@PathVariable Long id, HttpServletRequest httpServletRequest){
+        EntityModel<Order> entityModel= assembler.toModel(orderService.complete(id,httpServletRequest));
         return ResponseEntity
                 .ok(entityModel);
     }

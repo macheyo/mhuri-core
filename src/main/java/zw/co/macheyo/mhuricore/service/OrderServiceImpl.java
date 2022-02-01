@@ -54,11 +54,11 @@ public class OrderServiceImpl implements OrderService{
 
     @Override
     @Transactional
-    public Order close(Long id, HttpServletRequest httpServletRequest) {
+    public Order complete(Long id, HttpServletRequest httpServletRequest) {
         return orderRepository.findById(id).map(o->{
                     o.setLastModifiedBy(httpServletRequest.getUserPrincipal().getName());
                     o.setLastModifiedDate(LocalDateTime.now());
-                    o.setStatus(Status.CLOSED);
+                    o.setStatus(Status.COMPLETE);
                     for (Item i : o.getItems()) {
                         inventoryService.adjust(i.getProduct(), i.getQuantity());
                     }

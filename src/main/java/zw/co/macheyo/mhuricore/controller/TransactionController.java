@@ -39,7 +39,7 @@ public class TransactionController {
         return assembler.toModel(transaction);
     }
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/{id}/update")
     public EntityModel<Transaction> update(@PathVariable Long id, @Valid @RequestBody Transaction transaction, HttpServletRequest httpServletRequest){
         Transaction updatedTransaction = transactionService.update(id, transaction, httpServletRequest);
         return assembler.toModel(updatedTransaction);

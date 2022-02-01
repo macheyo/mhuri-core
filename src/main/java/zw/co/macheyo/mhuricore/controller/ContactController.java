@@ -46,7 +46,7 @@ public class ContactController {
                 .ok(entityModel);
     }
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/{id}/update")
     public ResponseEntity<?> update(@PathVariable Long id, @Valid @RequestBody Contact contact, HttpServletRequest httpServletRequest){
         EntityModel<Contact> entityModel = assembler.toModel(contactService.update(id, contact, httpServletRequest));
         return ResponseEntity
