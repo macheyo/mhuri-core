@@ -31,7 +31,6 @@ public class Inventory {
     @MapsId("productId")
     @JoinColumn(name = "product_id")
     Product product;
-    double sellingPrice;
     double purchasePrice;
     double quantity;
     double availableQuantity;
@@ -40,11 +39,10 @@ public class Inventory {
     @JsonIgnore
     private LocalDateTime createdDate = LocalDateTime.now();
 
-    public Inventory(Purchase purchase, Product product, double sellingPrice, double purchasePrice, double quantity) {
+    public Inventory(Purchase purchase, Product product, double purchasePrice, double quantity) {
         this.id = new InventoryKey(purchase.getId(),product.getId());
         this.purchase = purchase;
         this.product = product;
-        this.sellingPrice = sellingPrice;
         this.purchasePrice = purchasePrice;
         this.quantity = quantity;
         this.availableQuantity =  quantity;

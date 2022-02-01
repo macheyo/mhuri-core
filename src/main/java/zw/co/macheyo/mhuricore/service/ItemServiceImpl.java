@@ -32,6 +32,7 @@ public class ItemServiceImpl implements ItemService{
         return orderRepository.findById(orderId).map(order -> {
             item.setCreatedBy(httpServletRequest.getUserPrincipal().getName());
             item.setLastModifiedBy(httpServletRequest.getUserPrincipal().getName());
+            item.getProduct().getOrder_runs();
             item.setOrder(order);
             return itemRepository.save(item);
         }).orElseThrow(()->new ResourceNotFoundException("order","id",orderId));

@@ -5,19 +5,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import zw.co.macheyo.mhuricore.exception.InventoryNotEnoughException;
 import zw.co.macheyo.mhuricore.exception.ResourceNotFoundException;
-import zw.co.macheyo.mhuricore.model.Item;
-import zw.co.macheyo.mhuricore.model.Order;
-import zw.co.macheyo.mhuricore.model.Status;
+import zw.co.macheyo.mhuricore.model.*;
 import zw.co.macheyo.mhuricore.modelAssembler.OrderModelAssembler;
 import zw.co.macheyo.mhuricore.repository.ContactRepository;
 import zw.co.macheyo.mhuricore.repository.OrderRepository;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -91,9 +88,9 @@ public class OrderServiceImpl implements OrderService{
         double totalPrice=0;
         for(Item item:items){
             double quantity = item.getQuantity();
-            double price = item.getProduct().getPrice();
-            totalPrice+=quantity*price;
+            totalPrice+=quantity*item.getProduct().getPrice();
         }
         return totalPrice;
     }
+
 }

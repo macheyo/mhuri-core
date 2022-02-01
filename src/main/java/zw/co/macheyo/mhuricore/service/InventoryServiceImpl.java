@@ -33,7 +33,7 @@ public class InventoryServiceImpl implements InventoryService{
     public Inventory record(Long purchaseId,Long productId, InventoryDto inventoryDto, HttpServletRequest httpServletRequest) {
         Product product = productRepository.findById(productId).orElseThrow(()->new ResourceNotFoundException("product","id",productId));
         Purchase purchase = purchaseRepository.findById(purchaseId).orElseThrow(()->new ResourceNotFoundException("purchase","id",purchaseId));
-        Inventory inventory = new Inventory(purchase,product,inventoryDto.getSellingPrice(),inventoryDto.getPurchasePrice(),inventoryDto.getQuantity());
+        Inventory inventory = new Inventory(purchase,product, inventoryDto.getPurchasePrice(),inventoryDto.getQuantity());
         entityManager.persist(inventory);
         entityManager.close();
         return inventory;
@@ -66,7 +66,7 @@ public class InventoryServiceImpl implements InventoryService{
             Inventory i = inventory.next();
             availableInventory += i.getAvailableQuantity();
         }
-        if(availableInventory<=quantity){
+        if(availableInventory<quantity){
             throw new InventoryNotEnoughException(product.getName(),availableInventory);
         }
         return true;
