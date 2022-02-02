@@ -25,8 +25,8 @@ public class OrderItemController {
     ItemModelAssembler assembler;
 
     @PostMapping("/{orderId}/item")
-    public ResponseEntity<?> create(@PathVariable Long orderId, @Valid @RequestBody Item item, HttpServletRequest httpServletRequest) {
-        EntityModel<Item> entityModel = assembler.toModel(itemService.save(orderId, item, httpServletRequest));
+    public ResponseEntity<?> create(@PathVariable Long orderId, @Valid @RequestBody Item item) {
+        EntityModel<Item> entityModel = assembler.toModel(itemService.save(orderId, item));
         return ResponseEntity
                 .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
                 .body(entityModel);
@@ -44,9 +44,9 @@ public class OrderItemController {
                 .ok(entityModel);
     }
 
-    @PutMapping("/update/{orderId}/item/{itemId}")
-    public ResponseEntity<?> update(@PathVariable Long orderId, @PathVariable Long itemId, @Valid @RequestBody Item item, HttpServletRequest httpServletRequest){
-        EntityModel<Item> entityModel = assembler.toModel(itemService.update(orderId, itemId, item, httpServletRequest));
+    @PutMapping("/{orderId}/item/{itemId}")
+    public ResponseEntity<?> update(@PathVariable Long orderId, @PathVariable Long itemId, @Valid @RequestBody Item item){
+        EntityModel<Item> entityModel = assembler.toModel(itemService.update(orderId, itemId, item));
         return ResponseEntity
                 .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
                 .body(entityModel);

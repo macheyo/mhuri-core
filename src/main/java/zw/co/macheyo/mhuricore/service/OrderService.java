@@ -8,15 +8,17 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 @Component
 public interface OrderService {
-    Order save(Order order, HttpServletRequest httpServletRequest);
+    Order save(Order order);
 
-    Order update(Long id, Order order, HttpServletRequest httpServletRequest);
+    Order update(Long id, Order order);
 
-    Order complete(Long id, HttpServletRequest httpServletRequest);
+    Order complete(Long id);
 
     List<EntityModel<Order>> findAll();
 
     Order findById(Long id);
 
     void deleteById(Long id);
+
+    Order cancel(Long id);
 }

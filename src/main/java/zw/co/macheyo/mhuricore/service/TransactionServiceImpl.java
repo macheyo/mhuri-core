@@ -23,17 +23,14 @@ public class TransactionServiceImpl implements TransactionService{
     @Autowired
     ModelMapper modelMapper;
     @Override
-    public Transaction save(Transaction transaction, HttpServletRequest httpServletRequest) {
-        transaction.setCreatedBy(httpServletRequest.getUserPrincipal().getName());
-        transaction.setLastModifiedBy(httpServletRequest.getUserPrincipal().getName());
+    public Transaction save(Transaction transaction) {
         return transactionRepository.save(modelMapper.map(transaction, Transaction.class));
     }
 
     @Override
-    public Transaction update(Long id, Transaction transaction, HttpServletRequest httpServletRequest) {
+    public Transaction update(Long id, Transaction transaction) {
         return transactionRepository.findById(id).map(t->{
-                    t.setLastModifiedBy(httpServletRequest.getUserPrincipal().getName());
-                    t.setLastModifiedDate(LocalDateTime.now());
+                    t = transaction;
                     return transactionRepository.save(t);})
                 .orElseThrow(()->new ResourceNotFoundException("transaction","id",id));
     }

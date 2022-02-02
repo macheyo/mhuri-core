@@ -24,18 +24,14 @@ public class ProductServiceImpl implements ProductService{
     ModelMapper modelMapper;
 
     @Override
-    public Product save(Product product, HttpServletRequest httpServletRequest) {
-        product.setCreatedBy(httpServletRequest.getUserPrincipal().getName());
-        product.setLastModifiedBy(httpServletRequest.getUserPrincipal().getName());
+    public Product save(Product product) {
         return productRepository.save(modelMapper.map(product, Product.class));
     }
 
     @Override
-    public Product update(Long id, Product product, HttpServletRequest httpServletRequest) {
+    public Product update(Long id, Product product) {
         return productRepository.findById(id).map(p->{
             p.setName(product.getName());
-            p.setLastModifiedBy(httpServletRequest.getUserPrincipal().getName());
-            p.setLastModifiedDate(LocalDateTime.now());
             return productRepository.save(p);})
                 .orElseThrow(()->new ResourceNotFoundException("product","id",id));
     }

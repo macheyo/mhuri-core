@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.hibernate.envers.Audited;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -16,6 +17,7 @@ import java.util.Set;
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,property = "id")
 @Getter
 @Setter
+@EntityListeners(AuditingEntityListener.class)
 @RequiredArgsConstructor
 public class Transaction extends BaseEntity{
     private String reference;

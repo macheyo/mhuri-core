@@ -24,8 +24,8 @@ public class TransactionController {
     TransactionModelAssembler assembler;
 
     @PostMapping(consumes = APPLICATION_JSON_VALUE)
-    public EntityModel<Transaction> create(@Valid @RequestBody Transaction transaction, HttpServletRequest httpServletRequest) {
-        return assembler.toModel(transactionService.save(transaction, httpServletRequest));
+    public EntityModel<Transaction> create(@Valid @RequestBody Transaction transaction) {
+        return assembler.toModel(transactionService.save(transaction));
     }
 
     @GetMapping("/list")
@@ -40,8 +40,8 @@ public class TransactionController {
     }
 
     @PutMapping("/{id}/update")
-    public EntityModel<Transaction> update(@PathVariable Long id, @Valid @RequestBody Transaction transaction, HttpServletRequest httpServletRequest){
-        Transaction updatedTransaction = transactionService.update(id, transaction, httpServletRequest);
+    public EntityModel<Transaction> update(@PathVariable Long id, @Valid @RequestBody Transaction transaction){
+        Transaction updatedTransaction = transactionService.update(id, transaction);
         return assembler.toModel(updatedTransaction);
     }
 }

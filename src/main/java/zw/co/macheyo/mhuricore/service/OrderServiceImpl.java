@@ -7,6 +7,7 @@ import org.springframework.hateoas.IanaLinkRelations;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import zw.co.macheyo.mhuricore.exception.InventoryNotEnoughException;
+import zw.co.macheyo.mhuricore.exception.MethodNotAllowedException;
 import zw.co.macheyo.mhuricore.exception.ResourceNotFoundException;
 import zw.co.macheyo.mhuricore.model.*;
 import zw.co.macheyo.mhuricore.modelAssembler.OrderModelAssembler;
@@ -34,19 +35,15 @@ public class OrderServiceImpl implements OrderService{
     InventoryService inventoryService;
 
     @Override
-    public Order save(Order order, HttpServletRequest httpServletRequest) {
+    public Order save(Order order) {
         contactRepository.findById(order.getContact().getId()).orElseThrow(()->new ResourceNotFoundException("contact","id",order.getContact().getId()
         ));
-        order.setCreatedBy(httpServletRequest.getUserPrincipal().getName());
-        order.setLastModifiedBy(httpServletRequest.getUserPrincipal().getName());
         return orderRepository.save(modelMapper.map(order, Order.class));
     }
 
     @Override
-    public Order update(Long id, Order order, HttpServletRequest httpServletRequest) {
+    public Order update(Long id, Order order) {
         return orderRepository.findById(id).map(o->{
-                    o.setLastModifiedBy(httpServletRequest.getUserPrincipal().getName());
-                    o.setLastModifiedDate(LocalDateTime.now());
                     o.setStatus(order.getStatus());
                     return orderRepository.save(o);})
                 .orElseThrow(()->new ResourceNotFoundException("order","id",id));
@@ -54,24 +51,24 @@ public class OrderServiceImpl implements OrderService{
 
     @Override
     @Transactional
-    public Order complete(Long id, HttpServletRequest httpServletRequest) {
+    public Order complete(Long id) {
         return orderRepository.findById(id).map(o->{
-                    o.setLastModifiedBy(httpServletRequest.getUserPrincipal().getName());
-                    o.setLastModifiedDate(LocalDateTime.now());
-                    o.setStatus(Status.COMPLETE);
-                    for (Item i : o.getItems()) {
-                        inventoryService.adjust(i.getProduct(), i.getQuantity());
-                    }
-                    EntityModel <Order> entityModel = assembler.toModel(findById(o.getId()));
-                    doubleEntryService.record(
-                            "cash",
-                            "sales",
-                            entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri().toString(),
-                            orderTotalPrice(o.getItems()),
-                            httpServletRequest
-                            );
-                    return orderRepository.save(o);})
-                .orElseThrow(()->new ResourceNotFoundException("order","id",id));
+            if(o.getStatus()==Status.IN_PROGRESS) {
+                o.setStatus(Status.COMPLETE);
+                for (Item i : o.getItems()) {
+                    inventoryService.adjust(i.getProduct(), i.getQuantity());
+                }
+                EntityModel<Order> entityModel = assembler.toModel(findById(o.getId()));
+                doubleEntryService.record(
+                        "cash",
+                        "sales",
+                        entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri().toString(),
+                        orderTotalPrice(o.getItems())
+                );
+                return orderRepository.save(o);
+            }
+            else throw new MethodNotAllowedException("order","complete",o.getStatus());
+        }).orElseThrow(()->new ResourceNotFoundException("order","id",id));
     }
 
     @Override
@@ -89,6 +86,15 @@ public class OrderServiceImpl implements OrderService{
     @Override
     public void deleteById(Long id) {
         orderRepository.deleteById(id);
+    }
+
+    @Override
+    public Order cancel(Long id) {
+        return orderRepository.findById(id).map(o -> {
+            if(o.getStatus()==Status.IN_PROGRESS)
+                o.setStatus(Status.CANCELLED);
+            else throw new MethodNotAllowedException("order","cancel",o.getStatus());
+            return orderRepository.save(o);}).orElseThrow(() -> new ResourceNotFoundException("order","id",id));
     }
 
     private double orderTotalPrice(Set<Item> items){

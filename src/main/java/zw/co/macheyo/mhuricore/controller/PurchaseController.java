@@ -26,8 +26,8 @@ public class PurchaseController {
     PurchaseModelAssembler assembler;
 
     @PostMapping(consumes = APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> create(@Valid @RequestBody Purchase purchase, HttpServletRequest httpServletRequest) {
-        EntityModel<Purchase> entityModel = assembler.toModel(purchaseService.save(purchase, httpServletRequest));
+    public ResponseEntity<?> create(@Valid @RequestBody Purchase purchase) {
+        EntityModel<Purchase> entityModel = assembler.toModel(purchaseService.save(purchase));
         return ResponseEntity
                 .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
                 .body(entityModel);
@@ -46,24 +46,33 @@ public class PurchaseController {
     }
 
     @PutMapping("/{id}/update")
-    public ResponseEntity<?> update(@PathVariable Long id, @Valid @RequestBody Purchase purchase, HttpServletRequest httpServletRequest){
-        EntityModel<Purchase> entityModel = assembler.toModel(purchaseService.update(id, purchase, httpServletRequest));
+    public ResponseEntity<?> update(@PathVariable Long id, @Valid @RequestBody Purchase purchase){
+        EntityModel<Purchase> entityModel = assembler.toModel(purchaseService.update(id, purchase));
         return ResponseEntity
                 .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
                 .body(entityModel);
     }
 
     @PostMapping("/{id}/complete")
-    public ResponseEntity<?> complete(@PathVariable Long id, HttpServletRequest httpServletRequest){
-        EntityModel<Purchase> entityModel = assembler.toModel(purchaseService.complete(id, httpServletRequest));
+    public ResponseEntity<?> complete(@PathVariable Long id){
+        EntityModel<Purchase> entityModel = assembler.toModel(purchaseService.complete(id));
         return ResponseEntity
-                .ok(entityModel);
+                .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
+                .body(entityModel);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable Long id, HttpServletRequest httpServletRequest){
+    public ResponseEntity<?> delete(@PathVariable Long id){
         purchaseService.deleteById(id);
         return ResponseEntity
                 .noContent().build();
+    }
+
+    @PutMapping("/{id}/cancel")
+    public ResponseEntity<?> cancel(@PathVariable Long id) {
+        EntityModel<Purchase> entityModel = assembler.toModel(purchaseService.cancel(id));
+        return ResponseEntity
+                .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
+                .body(entityModel);
     }
 }

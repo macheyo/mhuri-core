@@ -27,8 +27,8 @@ public class ContactController {
     ContactModelAssembler assembler;
 
     @PostMapping(consumes = APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> create(@Valid @RequestBody Contact contact, HttpServletRequest httpServletRequest) {
-        EntityModel<Contact> entityModel = assembler.toModel(contactService.save(contact, httpServletRequest));
+    public ResponseEntity<?> create(@Valid @RequestBody Contact contact) {
+        EntityModel<Contact> entityModel = assembler.toModel(contactService.save(contact));
         return ResponseEntity
                 .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
                 .body(entityModel);
@@ -47,8 +47,8 @@ public class ContactController {
     }
 
     @PutMapping("/{id}/update")
-    public ResponseEntity<?> update(@PathVariable Long id, @Valid @RequestBody Contact contact, HttpServletRequest httpServletRequest){
-        EntityModel<Contact> entityModel = assembler.toModel(contactService.update(id, contact, httpServletRequest));
+    public ResponseEntity<?> update(@PathVariable Long id, @Valid @RequestBody Contact contact){
+        EntityModel<Contact> entityModel = assembler.toModel(contactService.update(id, contact));
         return ResponseEntity
                 .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
                 .body(entityModel);

@@ -26,8 +26,8 @@ public class AccountController {
     AccountModelAssembler assembler;
 
     @PostMapping(consumes = APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> create(@Valid @RequestBody Account account, HttpServletRequest httpServletRequest) {
-        EntityModel<Account> entityModel = assembler.toModel(accountService.save(account, httpServletRequest));
+    public ResponseEntity<?> create(@Valid @RequestBody Account account) {
+        EntityModel<Account> entityModel = assembler.toModel(accountService.save(account));
         return ResponseEntity
                 .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
                 .body(entityModel);
@@ -46,15 +46,15 @@ public class AccountController {
     }
 
     @PutMapping("/{id}/update")
-    public ResponseEntity<?> update(@PathVariable Long id, @Valid @RequestBody Account account, HttpServletRequest httpServletRequest){
-        EntityModel<Account> entityModel = assembler.toModel(accountService.update(id, account, httpServletRequest));
+    public ResponseEntity<?> update(@PathVariable Long id, @Valid @RequestBody Account account){
+        EntityModel<Account> entityModel = assembler.toModel(accountService.update(id, account));
         return ResponseEntity
                 .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
                 .body(entityModel);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable Long id, HttpServletRequest httpServletRequest){
+    public ResponseEntity<?> delete(@PathVariable Long id){
         accountService.deleteById(id);
         return ResponseEntity.noContent().build();
     }

@@ -7,6 +7,7 @@ import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 import zw.co.macheyo.mhuricore.controller.OrderController;
 import zw.co.macheyo.mhuricore.model.Order;
+import zw.co.macheyo.mhuricore.model.Status;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -16,9 +17,14 @@ public class OrderModelAssembler implements RepresentationModelAssembler<Order, 
     @NonNull
     @Override
     public EntityModel<Order> toModel(Order entity) {
-        return EntityModel.of(entity,
+        EntityModel<Order> orders = EntityModel.of(entity,
                 linkTo(methodOn(OrderController.class).getById(entity.getId())).withSelfRel(),
                 linkTo(methodOn(OrderController.class).list()).withRel("orders"));
+        if(entity.getStatus()== Status.IN_PROGRESS){
+            orders.add(linkTo(methodOn(OrderController.class).complete(entity.getId())).withRel("complete"));
+            orders.add(linkTo(methodOn(OrderController.class).cancel(entity.getId())).withRel("cancel"));
+        }
+        return orders;
     }
     @NonNull
     @Override

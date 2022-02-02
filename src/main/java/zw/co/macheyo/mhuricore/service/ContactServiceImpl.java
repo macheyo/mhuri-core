@@ -24,19 +24,15 @@ public class ContactServiceImpl implements ContactService {
     ModelMapper modelMapper;
 
     @Override
-    public Contact save(Contact contact, HttpServletRequest httpServletRequest) {
-        contact.setCreatedBy(httpServletRequest.getUserPrincipal().getName());
-        contact.setLastModifiedBy(httpServletRequest.getUserPrincipal().getName());
+    public Contact save(Contact contact) {
         return contactRepository.save(modelMapper.map(contact, Contact.class));
     }
 
     @Override
-    public Contact update(Long id, Contact contact, HttpServletRequest httpServletRequest) {
+    public Contact update(Long id, Contact contact) {
         return contactRepository.findById(id).map(c->{
                     c.setName(contact.getName());
                     c.setMsisdn(contact.getMsisdn());
-                    c.setLastModifiedBy(httpServletRequest.getUserPrincipal().getName());
-                    c.setLastModifiedDate(LocalDateTime.now());
                     return contactRepository.save(c);})
                 .orElseThrow(()->new ResourceNotFoundException("contact","id",id));
     }

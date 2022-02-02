@@ -7,9 +7,9 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 public interface ContactService {
-    Contact save(Contact contact, HttpServletRequest httpServletRequest);
+    Contact save(Contact contact);
 
-    Contact update(Long id, Contact contact, HttpServletRequest httpServletRequest);
+    Contact update(Long id, Contact contact);
 
     List<EntityModel<Contact>> findAll();
 

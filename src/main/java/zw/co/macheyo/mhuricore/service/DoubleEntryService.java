@@ -6,5 +6,5 @@ import javax.servlet.http.HttpServletRequest;
 
 @Component
 public interface DoubleEntryService {
-    void record(String accountToDebit, String accountToCredit, String reference, Double amount, HttpServletRequest httpServletRequest);
+    void record(String accountToDebit, String accountToCredit, String reference, Double amount);
 }

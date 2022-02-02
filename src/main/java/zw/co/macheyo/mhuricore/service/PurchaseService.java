@@ -10,9 +10,9 @@ import java.util.List;
 
 public interface PurchaseService {
 
-    Purchase save(Purchase purchase, HttpServletRequest httpServletRequest);
+    Purchase save(Purchase purchase);
 
-    Purchase update(Long id, Purchase product, HttpServletRequest httpServletRequest);
+    Purchase update(Long id, Purchase product);
 
     List<EntityModel<Purchase>> findAll();
 
@@ -20,7 +20,9 @@ public interface PurchaseService {
 
 
     @Transactional
-    Purchase complete(Long id, HttpServletRequest httpServletRequest);
+    Purchase complete(Long id);
 
     void deleteById(Long id);
+
+    Purchase cancel(Long id);
 }

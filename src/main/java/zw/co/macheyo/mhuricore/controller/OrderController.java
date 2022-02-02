@@ -26,8 +26,8 @@ public class OrderController {
     OrderModelAssembler assembler;
 
     @PostMapping(consumes = APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> create(@Valid @RequestBody Order order, HttpServletRequest httpServletRequest) {
-        EntityModel<Order> entityModel = assembler.toModel(orderService.save(order, httpServletRequest));
+    public ResponseEntity<?> create(@Valid @RequestBody Order order) {
+        EntityModel<Order> entityModel = assembler.toModel(orderService.save(order));
         return ResponseEntity
                 .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
                 .body(entityModel);
@@ -46,24 +46,33 @@ public class OrderController {
     }
 
     @PutMapping("/{id}/update")
-    public ResponseEntity<?> update(@PathVariable Long id, @Valid @RequestBody Order order, HttpServletRequest httpServletRequest){
-        EntityModel<Order> entityModel = assembler.toModel(orderService.update(id, order, httpServletRequest));
+    public ResponseEntity<?> update(@PathVariable Long id, @Valid @RequestBody Order order){
+        EntityModel<Order> entityModel = assembler.toModel(orderService.update(id, order));
         return ResponseEntity
                 .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
                 .body(entityModel);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable Long id, HttpServletRequest httpServletRequest){
+    public ResponseEntity<?> delete(@PathVariable Long id){
         orderService.deleteById(id);
         return ResponseEntity
                 .noContent().build();
     }
 
-    @PostMapping("/{id}/complete")
-    public ResponseEntity<?> complete(@PathVariable Long id, HttpServletRequest httpServletRequest){
-        EntityModel<Order> entityModel= assembler.toModel(orderService.complete(id,httpServletRequest));
+    @PutMapping("/{id}/complete")
+    public ResponseEntity<?> complete(@PathVariable Long id){
+        EntityModel<Order> entityModel= assembler.toModel(orderService.complete(id));
         return ResponseEntity
-                .ok(entityModel);
+                .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
+                .body(entityModel);
+    }
+
+    @PutMapping("/{id}/cancel")
+    public ResponseEntity<?> cancel(@PathVariable Long id) {
+        EntityModel<Order> entityModel = assembler.toModel(orderService.cancel(id));
+        return ResponseEntity
+                .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
+                .body(entityModel);
     }
 }

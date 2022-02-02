@@ -24,18 +24,14 @@ public class AccountServiceImpl implements AccountService{
     ModelMapper modelMapper;
 
     @Override
-    public Account save(Account account, HttpServletRequest httpServletRequest) {
-        account.setCreatedBy(httpServletRequest.getUserPrincipal().getName());
-        account.setLastModifiedBy(httpServletRequest.getUserPrincipal().getName());
-        return accountRepository.save(modelMapper.map(account, Account.class));
+    public Account save(Account account) {
+       return accountRepository.save(modelMapper.map(account, Account.class));
     }
 
     @Override
-    public Account update(Long id, Account account, HttpServletRequest httpServletRequest) {
+    public Account update(Long id, Account account) {
         return accountRepository.findById(id).map(a->{
                     a.setName(account.getName());
-                    a.setLastModifiedBy(httpServletRequest.getUserPrincipal().getName());
-                    a.setLastModifiedDate(LocalDateTime.now());
                     return accountRepository.save(a);})
                 .orElseThrow(()->new ResourceNotFoundException("account","id",id));
     }

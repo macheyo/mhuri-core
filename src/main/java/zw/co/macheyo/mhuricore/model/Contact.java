@@ -6,9 +6,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.envers.Audited;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.Size;
 import java.util.Set;
@@ -17,6 +19,7 @@ import java.util.Set;
 @Entity
 @Getter
 @Setter
+@EntityListeners(AuditingEntityListener.class)
 @RequiredArgsConstructor
 public class Contact extends BaseEntity{
     @Size(max=255)
@@ -28,5 +31,10 @@ public class Contact extends BaseEntity{
     @JsonBackReference
     @ToString.Exclude
     private Set<Order> orders;
+    @OneToMany(mappedBy = "contact")
+    @JsonBackReference
+    @ToString.Exclude
+    private Set<Purchase> purchases;
+
 
 }

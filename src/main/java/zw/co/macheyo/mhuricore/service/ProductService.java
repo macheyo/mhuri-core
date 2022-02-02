@@ -8,9 +8,9 @@ import java.util.List;
 
 public interface ProductService {
 
-    Product save(Product product, HttpServletRequest httpServletRequest);
+    Product save(Product product);
 
-    Product update(Long id, Product product, HttpServletRequest httpServletRequest);
+    Product update(Long id, Product product);
 
     List<EntityModel<Product>> findAll();
 

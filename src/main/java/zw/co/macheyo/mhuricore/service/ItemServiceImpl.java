@@ -26,12 +26,10 @@ public class ItemServiceImpl implements ItemService{
     @Autowired
     ItemModelAssembler assembler;
     @Override
-    public Item save(Long orderId, Item item, HttpServletRequest httpServletRequest) {
+    public Item save(Long orderId, Item item) {
         productRepository.findById(item.getProduct().getId()).orElseThrow(()->new ResourceNotFoundException("product","id",item.getProduct().getId()
         ));
         return orderRepository.findById(orderId).map(order -> {
-            item.setCreatedBy(httpServletRequest.getUserPrincipal().getName());
-            item.setLastModifiedBy(httpServletRequest.getUserPrincipal().getName());
             item.getProduct().getOrder_runs();
             item.setOrder(order);
             return itemRepository.save(item);
@@ -51,12 +49,10 @@ public class ItemServiceImpl implements ItemService{
     }
 
     @Override
-    public Item update(Long orderId, Long itemId, Item item, HttpServletRequest httpServletRequest) {
+    public Item update(Long orderId, Long itemId, Item item) {
         orderRepository.findById(orderId).orElseThrow(()->new ResourceNotFoundException("order","id",orderId));
         return itemRepository.findById(itemId).map(itemUpdate -> {
-            itemUpdate.setLastModifiedBy(httpServletRequest.getUserPrincipal().getName());
-            itemUpdate.setLastModifiedDate(LocalDateTime.now());
-            itemUpdate.setQuantity(item.getQuantity());
+           itemUpdate.setQuantity(item.getQuantity());
             return itemRepository.save(itemUpdate);
         }).orElseThrow(() -> new ResourceNotFoundException("item","id",itemId));
     }

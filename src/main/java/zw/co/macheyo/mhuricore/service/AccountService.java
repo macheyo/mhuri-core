@@ -7,9 +7,9 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 public interface AccountService{
-    Account save(Account account, HttpServletRequest httpServletRequest);
+    Account save(Account account);
 
-    Account update(Long id, Account account, HttpServletRequest httpServletRequest);
+    Account update(Long id, Account account);
 
     List<EntityModel<Account>> findAll();
 

@@ -19,12 +19,10 @@ public class DoubleEntryServiceImpl implements DoubleEntryService{
     EntityManager entityManager;
 
     @Override
-    public void record(String accountToDebit, String accountToCredit, String reference, Double amount, HttpServletRequest httpServletRequest) {
+    public void record(String accountToDebit, String accountToCredit, String reference, Double amount) {
         Account debitAccount = findAccountByName(accountToDebit);
         Account creditAccount = findAccountByName(accountToCredit);
         Transaction transaction = new Transaction();
-        transaction.setCreatedBy(httpServletRequest.getUserPrincipal().getName());
-        transaction.setLastModifiedBy(httpServletRequest.getUserPrincipal().getName());
         transaction.setReference(reference);
         entityManager.persist(transaction);
         AccountTransaction debitAccountTransaction = new AccountTransaction(debitAccount,transaction,amount);

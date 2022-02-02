@@ -6,6 +6,7 @@ import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.IanaLinkRelations;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import zw.co.macheyo.mhuricore.exception.MethodNotAllowedException;
 import zw.co.macheyo.mhuricore.exception.ResourceNotFoundException;
 import zw.co.macheyo.mhuricore.model.*;
 import zw.co.macheyo.mhuricore.modelAssembler.PurchaseModelAssembler;
@@ -29,17 +30,14 @@ public class PurchaseServiceImpl implements PurchaseService{
     ModelMapper modelMapper;
 
     @Override
-    public Purchase save(Purchase purchase, HttpServletRequest httpServletRequest) {
-        purchase.setCreatedBy(httpServletRequest.getUserPrincipal().getName());
-        purchase.setLastModifiedBy(httpServletRequest.getUserPrincipal().getName());
+    public Purchase save(Purchase purchase) {
         return purchaseRepository.save(modelMapper.map(purchase, Purchase.class));
     }
 
     @Override
-    public Purchase update(Long id, Purchase purchase, HttpServletRequest httpServletRequest) {
+    public Purchase update(Long id, Purchase purchase) {
         return purchaseRepository.findById(id).map(p->{
-            p.setLastModifiedBy(httpServletRequest.getUserPrincipal().getName());
-            p.setLastModifiedDate(LocalDateTime.now());
+
             return purchaseRepository.save(p);})
                 .orElseThrow(()->new ResourceNotFoundException("purchase","id",id));
     }
@@ -58,27 +56,39 @@ public class PurchaseServiceImpl implements PurchaseService{
 
     @Override
     @Transactional
-    public Purchase complete(Long id, HttpServletRequest httpServletRequest) {
+    public Purchase complete(Long id) {
         return purchaseRepository.findById(id).map(p->{
-                    p.setLastModifiedBy(httpServletRequest.getUserPrincipal().getName());
-                    p.setLastModifiedDate(LocalDateTime.now());
-                    p.setStatus(Status.COMPLETE);
-                    EntityModel<Purchase> entityModel = assembler.toModel(findById(p.getId()));
-                    doubleEntryService.record(
-                            "purchases",
-                            "cash",
-                            entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri().toString(),
-                            purchaseTotalPrice(p.getProducts()),
-                            httpServletRequest
-                    );
-                    return purchaseRepository.save(p);})
-                .orElseThrow(()->new ResourceNotFoundException("purchase","id",id));
+            if(p.getStatus()==Status.IN_PROGRESS){
+                p.setStatus(Status.COMPLETE);
+                EntityModel<Purchase> entityModel = assembler.toModel(findById(p.getId()));
+                doubleEntryService.record(
+                        "purchases",
+                        "cash",
+                        entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri().toString(),
+                        purchaseTotalPrice(p.getProducts())
+                );
+                return purchaseRepository.save(p);
+            }else throw new MethodNotAllowedException("purchase","complete",p.getStatus());
+        }).orElseThrow(()->new ResourceNotFoundException("purchase","id",id));
+    }
+
+    @Override
+    public Purchase cancel(Long id) {
+        return purchaseRepository.findById(id).map(p->{
+            if(p.getStatus()==Status.IN_PROGRESS) {
+                p.setStatus(Status.CANCELLED);
+                return purchaseRepository.save(p);
+            }
+            else throw new MethodNotAllowedException("purchase","cancel",p.getStatus());
+        }).orElseThrow(()->new ResourceNotFoundException("purchase","id",id));
     }
 
     @Override
     public void deleteById(Long id) {
         purchaseRepository.deleteById(id);
     }
+
+
 
     private Double purchaseTotalPrice(Set<Inventory> products) {
         double totalPurchasePrice = 0;

@@ -26,8 +26,8 @@ public class ProductController {
     ProductModelAssembler assembler;
 
     @PostMapping(consumes = APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> create(@Valid @RequestBody Product product, HttpServletRequest httpServletRequest) {
-        EntityModel<Product> entityModel = assembler.toModel(productService.save(product, httpServletRequest));
+    public ResponseEntity<?> create(@Valid @RequestBody Product product) {
+        EntityModel<Product> entityModel = assembler.toModel(productService.save(product));
         return ResponseEntity
                 .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
                 .body(entityModel);
@@ -47,8 +47,8 @@ public class ProductController {
     }
 
     @PutMapping("/{id}/update")
-    public ResponseEntity<?> update(@PathVariable Long id, @Valid @RequestBody Product product, HttpServletRequest httpServletRequest){
-        Product updatedProduct = productService.update(id, product, httpServletRequest);
+    public ResponseEntity<?> update(@PathVariable Long id, @Valid @RequestBody Product product){
+        Product updatedProduct = productService.update(id, product);
         EntityModel<Product> entityModel = assembler.toModel(updatedProduct);
         return ResponseEntity
                 .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
@@ -56,7 +56,7 @@ public class ProductController {
     }
 
     @DeleteMapping("/{id}")
-    ResponseEntity<?> deleteProduct(@PathVariable Long id, HttpServletRequest httpServletRequest){
+    ResponseEntity<?> deleteProduct(@PathVariable Long id){
         productService.deleteById(id);
         return ResponseEntity.noContent().build();
     }

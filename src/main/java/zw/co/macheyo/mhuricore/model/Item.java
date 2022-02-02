@@ -11,6 +11,7 @@ import lombok.ToString;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.envers.Audited;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 
@@ -20,6 +21,7 @@ import javax.persistence.*;
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,property = "id")
 @Getter
 @Setter
+@EntityListeners(AuditingEntityListener.class)
 @RequiredArgsConstructor
 public class Item extends BaseEntity{
     @JsonBackReference
