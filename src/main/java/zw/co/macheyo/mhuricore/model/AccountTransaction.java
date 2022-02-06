@@ -30,7 +30,7 @@ public class AccountTransaction {
     Transaction transaction;
 
     double amount;
-
+    Currency currency;
     public AccountTransaction(Account account, Transaction transaction, double amount) {
         this.id = new AccountTransactionKey(account.getId(),transaction.getId());
         this.account = account;
