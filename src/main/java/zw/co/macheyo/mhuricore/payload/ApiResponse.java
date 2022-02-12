@@ -2,10 +2,19 @@ package zw.co.macheyo.mhuricore.payload;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
-public class ApiResponse {
+@NoArgsConstructor
+public class ApiResponse<T> {
     private boolean success;
-    private Object message;
+    private String message;
+    private T body;
+
+    public ApiResponse(boolean success,String message){
+        this.success=success;
+        this.message=message;
+    }
+
 }

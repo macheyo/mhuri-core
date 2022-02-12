@@ -53,7 +53,7 @@ public class AuthController {
         );
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String token = tokenProvider.createToken(authentication);
-        return ResponseEntity.ok(new ApiResponse(true,token));
+        return ResponseEntity.ok(new ApiResponse<>(true, "Sign in successful", token));
     }
 
     @PostMapping("/signup")
@@ -82,7 +82,7 @@ public class AuthController {
                 .buildAndExpand(result.getId()).toUri();
 
         return ResponseEntity.created(location)
-                .body(new ApiResponse(true, "User registered successfully@"));
+                .body(new ApiResponse(true, "User registered successfully"));
     }
 
 }
