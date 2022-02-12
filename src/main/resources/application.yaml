@@ -1,14 +1,14 @@
 server:
   servlet:
     context-path: /mhuri
-  port: 8080
+  port: 1994
 spring:
   application:
     name: Mhuri
   datasource:
     url: jdbc:postgresql://localhost:5432/mhuri_core?autoReconnect=true&createDatabaseIfNotExist=true&useSSL=false
     username: postgres
-    password: password
+    password: Hi@ryl@h2020
 #    url: jdbc:mysql://localhost:3306/mhuri_core?autoReconnect=true&createDatabaseIfNotExist=true&useSSL=false
 #    username: root
 #    password:
