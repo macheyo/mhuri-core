@@ -53,7 +53,7 @@ public class AuthController {
         );
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String token = tokenProvider.createToken(authentication);
-        return ResponseEntity.ok(new ApiResponse<>(true, "Sign in successful", token));
+        return ResponseEntity.ok(new ApiResponse<>(true, "Sign in successful", AuthResponse.builder().accessToken(token).tokenType("Bearer").build()));
     }
 
     @PostMapping("/signup")
