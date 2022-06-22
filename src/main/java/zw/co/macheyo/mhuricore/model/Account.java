@@ -1,29 +1,26 @@
 package zw.co.macheyo.mhuricore.model;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.envers.Audited;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import zw.co.macheyo.mhuricore.enums.AccountType;
 
-import javax.persistence.*;
-import javax.validation.constraints.Size;
-import java.util.Set;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 
 @Audited
 @Entity
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,property = "id")
 @Getter
 @Setter
-@EntityListeners(AuditingEntityListener.class)
-@RequiredArgsConstructor
+@NoArgsConstructor
+@AllArgsConstructor
 public class Account extends BaseEntity{
-    @Size(max=255)
     @Column(nullable = false, unique = true)
     private String name;
+    @Enumerated(EnumType.STRING)
     private AccountType accountType;
-    @OneToMany(mappedBy = "account")
-    Set<AccountTransaction> transactions;
 }

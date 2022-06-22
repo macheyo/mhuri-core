@@ -16,7 +16,7 @@ public class SQLExceptionAdvice {
     @ResponseBody
     @ExceptionHandler(SQLException.class)
     @ResponseStatus(HttpStatus.CONFLICT)
-    ResponseEntity<?> SQLExceptionHandler(SQLException ex) {
+    ResponseEntity<Problem> sqlExceptionHandler(SQLException ex) {
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
                 .header(HttpHeaders.CONTENT_TYPE, MediaTypes.HTTP_PROBLEM_DETAILS_JSON_VALUE)

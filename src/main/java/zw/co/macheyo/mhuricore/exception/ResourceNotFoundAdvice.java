@@ -16,7 +16,7 @@ public class ResourceNotFoundAdvice {
     @ResponseBody
     @ExceptionHandler(ResourceNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    ResponseEntity<?> ResourceNotFoundHandler(ResourceNotFoundException ex) {
+    ResponseEntity<Problem> resourceNotFoundExceptionHandler(ResourceNotFoundException ex) {
         return ResponseEntity
                 .status(HttpStatus.NOT_FOUND)
                 .header(HttpHeaders.CONTENT_TYPE, MediaTypes.HTTP_PROBLEM_DETAILS_JSON_VALUE)

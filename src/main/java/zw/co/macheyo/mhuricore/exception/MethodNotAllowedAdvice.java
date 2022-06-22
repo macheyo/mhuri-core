@@ -16,7 +16,7 @@ public class MethodNotAllowedAdvice {
     @ResponseBody
     @ExceptionHandler(MethodNotAllowedException.class)
     @ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
-    ResponseEntity<?> methodNotAllowedHandler(MethodNotAllowedException ex) {
+    ResponseEntity<Problem> methodNotAllowedHandler(MethodNotAllowedException ex) {
         return ResponseEntity
                 .status(HttpStatus.METHOD_NOT_ALLOWED)
                 .header(HttpHeaders.CONTENT_TYPE, MediaTypes.HTTP_PROBLEM_DETAILS_JSON_VALUE)

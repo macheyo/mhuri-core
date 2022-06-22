@@ -14,6 +14,8 @@ import java.util.Map;
 public class UserPrincipal implements OAuth2User, UserDetails {
     private final Long id;
     private final String email;
+
+    private final String userName;
     private final String password;
     private final Collection<? extends GrantedAuthority> authorities;
     private Map<String, Object> attributes;
@@ -23,6 +25,7 @@ public class UserPrincipal implements OAuth2User, UserDetails {
         this.email = email;
         this.password = password;
         this.authorities = authorities;
+        this.userName = email;
     }
 
     public static UserPrincipal create(User user) {
@@ -58,7 +61,7 @@ public class UserPrincipal implements OAuth2User, UserDetails {
 
     @Override
     public String getUsername() {
-        return email;
+        return userName;
     }
 
     @Override

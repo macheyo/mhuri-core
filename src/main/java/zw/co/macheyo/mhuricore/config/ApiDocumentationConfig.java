@@ -5,13 +5,13 @@ import io.swagger.annotations.*;
 
 @SwaggerDefinition(
         info = @Info(
-                description = "Awesome Resources",
-                version = "V12.0.12",
-                title = "Awesome Resource API",
+                description = "Mhuri Resources",
+                version = "V1.0.0",
+                title = "Mhuri Resource API",
                 contact = @Contact(
-                        name = "Ranga Karanam",
-                        email = "ranga@in28minutes.com",
-                        url = "http://www.in28minutes.com"
+                        name = "Kudzai Justice Macheyo",
+                        email = "kudzai@macheyo.co.zw",
+                        url = "https://www.mhuri.macheyo.co.zw"
                 ),
                 license = @License(
                         name = "Apache 2.0",
@@ -21,7 +21,7 @@ import io.swagger.annotations.*;
         consumes = {"application/json", "application/xml"},
         produces = {"application/json", "application/xml"},
         schemes = {SwaggerDefinition.Scheme.HTTP, SwaggerDefinition.Scheme.HTTPS},
-        externalDocs = @ExternalDocs(value = "Read This For Sure", url = "http://in28minutes.com")
+        externalDocs = @ExternalDocs(value = "Read This For Sure", url = "https://www.mhuri.macheyo.co.zw")
 )
 public interface ApiDocumentationConfig {
 }

@@ -16,7 +16,7 @@ public class BadRequestAdvice {
     @ResponseBody
     @ExceptionHandler(BadRequestException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    ResponseEntity<?> BadRequestExceptionHandler(BadRequestException ex) {
+    ResponseEntity<Problem> badRequestExceptionHandler(BadRequestException ex) {
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
                 .header(HttpHeaders.CONTENT_TYPE, MediaTypes.HTTP_PROBLEM_DETAILS_JSON_VALUE)

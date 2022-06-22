@@ -16,7 +16,7 @@ public class InventoryNotEnoughAdvice {
     @ResponseBody
     @ExceptionHandler(InventoryNotEnoughException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    ResponseEntity<?> InventoryNotEnoughHandler(InventoryNotEnoughException ex) {
+    ResponseEntity<Problem> inventoryNotEnoughExceptionHandler(InventoryNotEnoughException ex) {
         return ResponseEntity
                 .status(HttpStatus.METHOD_NOT_ALLOWED)
                 .header(HttpHeaders.CONTENT_TYPE, MediaTypes.HTTP_PROBLEM_DETAILS_JSON_VALUE)

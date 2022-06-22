@@ -8,7 +8,7 @@ spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/mhuri_core?autoReconnect=true&createDatabaseIfNotExist=true&useSSL=false
     username: postgres
-    password: Hi@ryl@h2020
+    password: H!@ryl@H1994
 #    url: jdbc:mysql://localhost:3306/mhuri_core?autoReconnect=true&createDatabaseIfNotExist=true&useSSL=false
 #    username: root
 #    password:
